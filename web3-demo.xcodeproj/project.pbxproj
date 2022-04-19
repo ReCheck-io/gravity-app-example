@@ -7,18 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3C38789280EF24A009A3357 /* ContractABI.json in Resources */ = {isa = PBXBuildFile; fileRef = B3C38788280EF0EC009A3357 /* ContractABI.json */; };
 		B3E4ACB6280ED785004B2154 /* web3_demoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E4ACB5280ED785004B2154 /* web3_demoApp.swift */; };
 		B3E4ACB8280ED785004B2154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E4ACB7280ED785004B2154 /* ContentView.swift */; };
 		B3E4ACBA280ED786004B2154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E4ACB9280ED786004B2154 /* Assets.xcassets */; };
 		B3E4ACBD280ED786004B2154 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */; };
+		B3E4ACC4280ED7AB004B2154 /* Web3_Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */; };
+		B3E4ACC7280ED819004B2154 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = B3E4ACC6280ED819004B2154 /* web3swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B3C38788280EF0EC009A3357 /* ContractABI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContractABI.json; sourceTree = "<group>"; };
 		B3E4ACB2280ED785004B2154 /* web3-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "web3-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E4ACB5280ED785004B2154 /* web3_demoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = web3_demoApp.swift; sourceTree = "<group>"; };
 		B3E4ACB7280ED785004B2154 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B3E4ACB9280ED786004B2154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3_Provider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E4ACC7280ED819004B2154 /* web3swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,9 +58,11 @@
 			isa = PBXGroup;
 			children = (
 				B3E4ACB5280ED785004B2154 /* web3_demoApp.swift */,
+				B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */,
 				B3E4ACB7280ED785004B2154 /* ContentView.swift */,
 				B3E4ACB9280ED786004B2154 /* Assets.xcassets */,
 				B3E4ACBB280ED786004B2154 /* Preview Content */,
+				B3C38788280EF0EC009A3357 /* ContractABI.json */,
 			);
 			path = "web3-demo";
 			sourceTree = "<group>";
@@ -83,6 +91,9 @@
 			dependencies = (
 			);
 			name = "web3-demo";
+			packageProductDependencies = (
+				B3E4ACC6280ED819004B2154 /* web3swift */,
+			);
 			productName = "web3-demo";
 			productReference = B3E4ACB2280ED785004B2154 /* web3-demo.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +122,9 @@
 				Base,
 			);
 			mainGroup = B3E4ACA9280ED785004B2154;
+			packageReferences = (
+				B3E4ACC5280ED819004B2154 /* XCRemoteSwiftPackageReference "web3swift" */,
+			);
 			productRefGroup = B3E4ACB3280ED785004B2154 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,6 +139,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3C38789280EF24A009A3357 /* ContractABI.json in Resources */,
 				B3E4ACBD280ED786004B2154 /* Preview Assets.xcassets in Resources */,
 				B3E4ACBA280ED786004B2154 /* Assets.xcassets in Resources */,
 			);
@@ -139,6 +154,7 @@
 			files = (
 				B3E4ACB8280ED785004B2154 /* ContentView.swift in Sources */,
 				B3E4ACB6280ED785004B2154 /* web3_demoApp.swift in Sources */,
+				B3E4ACC4280ED7AB004B2154 /* Web3_Provider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +357,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B3E4ACC5280ED819004B2154 /* XCRemoteSwiftPackageReference "web3swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:skywinder/web3swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B3E4ACC6280ED819004B2154 /* web3swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3E4ACC5280ED819004B2154 /* XCRemoteSwiftPackageReference "web3swift" */;
+			productName = web3swift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3E4ACAA280ED785004B2154 /* Project object */;
 }
