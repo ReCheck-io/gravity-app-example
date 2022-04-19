@@ -60,9 +60,9 @@
 				B3E4ACB5280ED785004B2154 /* web3_demoApp.swift */,
 				B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */,
 				B3E4ACB7280ED785004B2154 /* ContentView.swift */,
+				B3C38788280EF0EC009A3357 /* ContractABI.json */,
 				B3E4ACB9280ED786004B2154 /* Assets.xcassets */,
 				B3E4ACBB280ED786004B2154 /* Preview Content */,
-				B3C38788280EF0EC009A3357 /* ContractABI.json */,
 			);
 			path = "web3-demo";
 			sourceTree = "<group>";

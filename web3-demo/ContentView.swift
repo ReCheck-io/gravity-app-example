@@ -85,8 +85,8 @@ struct ContentView: View {
         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
         .cornerRadius(6)
         
-        Button("Verify Terms") {
-            print("Verify Terms....")
+        Button("Verify Signature") {
+            print("Verify Signature....")
             let contractAddress = EthereumAddress("0x308d002805D50AdD08440239fB9118b87cD61cef")!
             let walletAddress = EthereumAddress(web3.wallet.address)!
             
