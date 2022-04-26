@@ -26,18 +26,50 @@ class Web3Provider {
     }
     
     func createAccount(password: String, name: String = "Wallet") {
-        let keystore = try! EthereumKeystoreV3(password: password)!
+        // Create mnemonics
+        let bitsOfEntropy: Int = 128 // Entropy is a measure of password strength. Usually used 128 or 256 bits.
+        let mnemonics = try! BIP39.generateMnemonics(bitsOfEntropy: bitsOfEntropy)!
+    
+        let keystore = try! BIP32Keystore(mnemonics: mnemonics, password: password, mnemonicsPassword: "", language: .english)!
+        
         let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
         let address = keystore.addresses!.first!.address
         wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+        
+        let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
+        
+        print("Mnemonics :-> ", mnemonics.description)
+        print("Address :-> ", address as Any)
+        print("Address :-> ", keystore.addresses as Any)
+        print("Private Key :-> ", privateKey?.hexString as Any)
     }
 
-    func importAccount(privateKey: String, password: String, name: String = "Wallet") {
-        let formattedKey = privateKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        let dataKey = Data.fromHex(formattedKey)!
-        let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
-        let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
-        let address = keystore.addresses!.first!.address
-        wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+    func importAccountWith(privateKey: String = "", mnemonics: String = "", password: String, name: String = "Wallet") {
+        if (privateKey != "" && mnemonics == "") {
+            let formattedKey = privateKey.trimmingCharacters(in: .whitespacesAndNewlines)
+            let dataKey = Data.fromHex(formattedKey)!
+            let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
+            let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
+            let address = keystore.addresses!.first!.address
+            wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+            
+            let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
+            
+            print("Address :-> ", address as Any)
+            print("Address :-> ", keystore.addresses as Any)
+            print("Private Key :-> ", privateKey?.hexString as Any)
+        } else if (privateKey == "" && mnemonics != ""){
+            let keystore = try! BIP32Keystore(mnemonics: mnemonics , prefixPath: "m/44'/77777'/0'/0")!
+            let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
+            let address = keystore.addresses!.first!.address
+            wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+            
+            let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
+            
+            print("Mnemonics :-> ", mnemonics.description)
+            print("Address :-> ", address as Any)
+            print("Address :-> ", keystore.addresses as Any)
+            print("Private Key :-> ", privateKey?.hexString as Any)
+        }
     }
 }
