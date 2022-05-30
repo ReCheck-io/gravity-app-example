@@ -62,7 +62,7 @@ struct ContentView: View {
             
             Button("Import Identity") {
                 print("Import identity....")
-                web3.importAccountWith(privateKey: "b62dcc5872e64ec5af6cc34a29ee963a2eb760d0370979fd882a6063560ab33d", password: "123123")
+                web3.importAccountWith(privateKey: "3e006687bc995f5f876eba9bfb4c7f15c21b243dde566c0484fd865c0d1c6ca6връща нещо подобно", password: "123123")
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
             }
@@ -144,8 +144,10 @@ struct ContentView: View {
                 
                 let tx = contract.write("signTerms", parameters: parameters as [AnyObject], extraData: Data() as Data, transactionOptions: options)!
                 
-                let res = try? tx.send()
+                print("Tx object", tx.transaction)
                 
+                let res = try? tx.send()
+
                 print(res as Any)
                 
             }
