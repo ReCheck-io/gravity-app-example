@@ -18,10 +18,14 @@ struct Wallet {
 class Web3Provider {
     public var client: web3
     public var wallet: Wallet!
-    private let keystoreManager = try! EthereumKeystoreV3(password: "storePass")!
+    
+    // Update with blockchain address
+    private var endpoint = "http://127.0.0.1:7545"
+    
+    // Update after deploying contracts
+    public var contractAddress = EthereumAddress("0xdBc9205f1fF6Fa1B543034a600a44ae96D56589A")!
 
     init() {
-        let endpoint = "http://127.0.0.1:7545"
         client = web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
     }
     

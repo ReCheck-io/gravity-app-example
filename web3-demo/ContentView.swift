@@ -16,6 +16,10 @@ extension Data {
 
 struct ContentView: View {
     let web3 = Web3Provider()
+    
+    var privateKeyForImportWallet = "b142d54571d9f9775659564d284208a828e5d211409bb18e053f045c0176f8a6"
+    var mnemonicsForImportWallet = "fluid kind bird ice wing ribbon era common scissors stock chat estate"
+    
     @State var address: String = "Wallet: N/A"
     
     var body: some View {
@@ -62,7 +66,7 @@ struct ContentView: View {
             
             Button("Import Identity") {
                 print("Import identity....")
-                web3.importAccountWith(privateKey: "3e006687bc995f5f876eba9bfb4c7f15c21b243dde566c0484fd865c0d1c6ca6връща нещо подобно", password: "123123")
+                web3.importAccountWith(privateKey: privateKeyForImportWallet, password: "123123")
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
             }
@@ -73,7 +77,7 @@ struct ContentView: View {
             
             Button("Import Identity") {
                 print("Import identity with mnemonic....")
-                web3.importAccountWith(mnemonics: "fluid kind bird ice wing ribbon era common scissors stock chat estate", password: "123123")
+                web3.importAccountWith(mnemonics: mnemonicsForImportWallet, password: "123123")
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
             }
@@ -121,7 +125,6 @@ struct ContentView: View {
             
             Button("Sign Terms") {
                 print("Sign Terms....")
-                let contractAddress = EthereumAddress("0x469B116498b9848566d14D7Bb0Ab2c1B8a3166C1")!
                 let walletAddress = EthereumAddress(web3.wallet.address)!
                 
                 guard let url = Bundle.main.url(forResource: "ContractABI", withExtension: "json") else {
@@ -131,7 +134,7 @@ struct ContentView: View {
                 
                 let contractABI = try! String(contentsOf: url)
                 
-                let contract = web3.client.contract(contractABI, at: contractAddress, abiVersion: 2)!
+                let contract = web3.client.contract(contractABI, at: web3.contractAddress, abiVersion: 2)!
                 let parameters = [
                     "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b",
                     "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b"]
@@ -158,7 +161,6 @@ struct ContentView: View {
             
             Button("Verify Signature") {
                 print("Verify Signature....")
-                let contractAddress = EthereumAddress("0x469B116498b9848566d14D7Bb0Ab2c1B8a3166C1")!
                 let walletAddress = EthereumAddress(web3.wallet.address)!
                 
                 guard let url = Bundle.main.url(forResource: "ContractABI", withExtension: "json") else {
@@ -168,7 +170,7 @@ struct ContentView: View {
                 
                 let contractABI = try! String(contentsOf: url)
                 
-                let contract = web3.client.contract(contractABI, at: contractAddress, abiVersion: 2)!
+                let contract = web3.client.contract(contractABI, at: web3.contractAddress, abiVersion: 2)!
                 let parameters = [
                     walletAddress.address,
                     "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b",
