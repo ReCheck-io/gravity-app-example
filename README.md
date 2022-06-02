@@ -21,9 +21,11 @@ $ truffle test
 $ truffle migrate
 ```
 
+- After migrate command from logs we need `contract address` value under the `2_deploy_contracts.js`
+
 ## Changes needed for the example code to work
 - Update blockchain endpoint `http://127.0.0.1:7545` (only if it's different from the default one) - `Web3_Provider.swift` file `endpoint` variable
-- Update smart contract address - `Web3_Provider.swift` file `contractAddress` variable
+- Update smart contract address - `Web3_Provider.swift` file `contractAddress` variable (use contract address which we got from the logs)
 - In order to test Sign Terms or Verify Signature you should import wallets with balance - Variables are in `ContentView.swift` file
   - There is two way to import wallet with mnemonics (update `mnemonicsForImportWallet` variable) or with private key (update `privateKeyForImportWallet` variable) this will import wallets from Ganache
 
