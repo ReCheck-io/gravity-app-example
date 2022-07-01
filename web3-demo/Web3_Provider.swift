@@ -13,6 +13,7 @@ struct Wallet {
     let data: Data
     let name: String
     let isHD: Bool
+    let keystore: BIP32Keystore?
 }
 
 class Web3Provider {
@@ -34,11 +35,11 @@ class Web3Provider {
         let bitsOfEntropy: Int = 128 // Entropy is a measure of password strength. Usually used 128 or 256 bits.
         let mnemonics = try! BIP39.generateMnemonics(bitsOfEntropy: bitsOfEntropy)!
     
-        let keystore = try! BIP32Keystore(mnemonics: mnemonics, password: password, mnemonicsPassword: "", language: .english)!
+        let keystore = try! BIP32Keystore(mnemonics: mnemonics, password: password, language: .english)!
         
         let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
         let address = keystore.addresses!.first!.address
-        wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+        wallet = Wallet(address: address, data: keyData, name: name, isHD: false, keystore: keystore)
         
         let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
         
@@ -55,7 +56,7 @@ class Web3Provider {
             let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
             let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
             let address = keystore.addresses!.first!.address
-            wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+            wallet = Wallet(address: address, data: keyData, name: name, isHD: false, keystore: nil)
             
             let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
             
@@ -63,10 +64,10 @@ class Web3Provider {
             print("Address :-> ", keystore.addresses as Any)
             print("Private Key :-> ", privateKey?.hexString as Any)
         } else if (privateKey == "" && mnemonics != ""){
-            let keystore = try! BIP32Keystore(mnemonics: mnemonics , prefixPath: "m/44'/77777'/0'/0")!
+            let keystore = try! BIP32Keystore(mnemonics: mnemonics, password: password, prefixPath: "m/44'/77777'/0'/0")!
             let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
             let address = keystore.addresses!.first!.address
-            wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+            wallet = Wallet(address: address, data: keyData, name: name, isHD: false, keystore: keystore)
             
             let privateKey = try? keystore.UNSAFE_getPrivateKeyData(password: password, account: keystore.addresses!.first!)
             

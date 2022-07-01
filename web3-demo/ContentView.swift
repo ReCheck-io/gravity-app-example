@@ -17,6 +17,7 @@ extension Data {
 struct ContentView: View {
     let web3 = Web3Provider()
     
+    var accountPassword = "123123123"
     var privateKeyForImportWallet = "b142d54571d9f9775659564d284208a828e5d211409bb18e053f045c0176f8a6"
     var mnemonicsForImportWallet = "fluid kind bird ice wing ribbon era common scissors stock chat estate"
     
@@ -32,7 +33,7 @@ struct ContentView: View {
             
             Button("Create Identity") {
                 print("Creating identity....")
-                web3.createAccount(password: "123123")
+                web3.createAccount(password: accountPassword)
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
                 
@@ -64,9 +65,9 @@ struct ContentView: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
             .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
             
-            Button("Import Identity") {
+            Button("Import Identity w/ PrivateKey") {
                 print("Import identity....")
-                web3.importAccountWith(privateKey: privateKeyForImportWallet, password: "123123")
+                web3.importAccountWith(privateKey: privateKeyForImportWallet, password: accountPassword)
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
             }
@@ -75,9 +76,9 @@ struct ContentView: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
             .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
             
-            Button("Import Identity") {
+            Button("Import Identity w/ Mnemonic") {
                 print("Import identity with mnemonic....")
-                web3.importAccountWith(mnemonics: mnemonicsForImportWallet, password: "123123")
+                web3.importAccountWith(mnemonics: mnemonicsForImportWallet, password: accountPassword)
                 print(web3.wallet ?? "No wallet")
                 address = "Wallet: " + web3.wallet.address
             }
@@ -86,37 +87,62 @@ struct ContentView: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
             .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
             
-            Button("Get Balance") {
-                print("Get Balance....")
-                let walletAddress = EthereumAddress(web3.wallet.address)!
-                let balanceResult = try! web3.client.eth.getBalance(address: walletAddress)
-                let balanceString = Web3.Utils.formatToEthereumUnits(balanceResult, toUnits: .eth, decimals: 3)!
-                
-                print(balanceString)
-            }
-            .padding(.horizontal, 12.0)
-            .padding(.vertical, 8.0)
-            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
-            .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
+//            Button("Get Balance") {
+//                print("Get Balance....")
+//                let walletAddress = EthereumAddress(web3.wallet.address)!
+//                let balanceResult = try! web3.client.eth.getBalance(address: walletAddress)
+//                let balanceString = Web3.Utils.formatToEthereumUnits(balanceResult, toUnits: .eth, decimals: 3)!
+//
+//                print(balanceString)
+//            }
+//            .padding(.horizontal, 12.0)
+//            .padding(.vertical, 8.0)
+//            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+//            .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
             
             Button("Sign Raw Tx") {
                 print("Sign Raw Tx....")
+               
+                let message = "Hello World"
+                let walletAddress = EthereumAddress(web3.wallet.address)!
+                let signature = try! Web3Signer.signPersonalMessage(
+                    message.data(using: .utf8)!,
+                    keystore: web3.wallet.keystore!,
+                    account: walletAddress,
+                    password: accountPassword)!
+                
+//              let signature = try! web3.client.personal.signPersonalMessage(message: message.data(using: .utf8)!, from: walletAddress)
+                print("signature", signature.toHexString())
+                let unmarshalledSignature = SECP256K1.unmarshalSignature(signatureData: signature)!
+                print("V = " + String(unmarshalledSignature.v))
+                print("R = " + Data(unmarshalledSignature.r).toHexString())
+                print("S = " + Data(unmarshalledSignature.s).toHexString())
+                print("Personal hash = " + Web3.Utils.hashPersonalMessage(message.data(using: .utf8)!)!.toHexString())
+                let signer = Web3Utils.personalECRecover(message.data(using: .utf8)!, signature: signature)
+//              let signer = try web3.client.personal.ecrecover(personalMessage: message.data(using: .utf8)!, signature: signature)
+                print(signer?.address as Any)
+            }
+            .padding(.horizontal, 12.0)
+            .padding(.vertical, 8.0)
+            .foregroundColor(/*@START_MENU_TOKEN@*/.white/*@END_MENU_TOKEN@*/)
+            .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
+            
+            Button("Sign Terms (Gassless)") {
                 do {
-                    let message = "Hello World"
-                    let walletAddress = EthereumAddress(web3.wallet.address)!
-                    let signature = try! web3.client.personal.signPersonalMessage(message: message.data(using: .utf8)!, from: walletAddress)
-                    print("signature", signature.toHexString())
-                    let unmarshalledSignature = SECP256K1.unmarshalSignature(signatureData: signature)!
-                    print("V = " + String(unmarshalledSignature.v))
-                    print("R = " + Data(unmarshalledSignature.r).toHexString())
-                    print("S = " + Data(unmarshalledSignature.s).toHexString())
-                    print("Personal hash = " + Web3.Utils.hashPersonalMessage(message.data(using: .utf8)!)!.toHexString())
-                    let signer = try web3.client.personal.ecrecover(personalMessage: message.data(using: .utf8)!, signature: signature)
-                    print(signer)
+                    print("Sign Terms (Gassless)....")
+                   
+
+                    let geip712 = GEIP712()
+                    
+                    try? geip712.signTerms(
+                        keystore: web3.wallet.keystore!,
+                        keyStorePassword: accountPassword,
+                        termsHash: "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b",
+                        termsVersion: "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b")
+
                 } catch {
                     print(error)
                 }
-                
             }
             .padding(.horizontal, 12.0)
             .padding(.vertical, 8.0)
