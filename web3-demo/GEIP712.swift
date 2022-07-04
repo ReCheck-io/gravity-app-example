@@ -8,19 +8,27 @@
 import Foundation
 import web3swift
 
+struct RelayerPayload: Codable {
+    let tx: SafeTxStr
+    let from: EthereumAddress
+    let signature: String
+}
+
 
 class GEIP712 {
 
-    let tosContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
-    let relayContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
+    let tosContract: String = "0x5DCC06c74BCaBb840B08F05399A44AEc3ED1bdD4"
+    let relayContract: String = "0xaC4c847899f7A38b166DCcb83171eF4c19FD4c9C"
+//    let tosContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
+//    let relayContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
     let relayUrl: String = "https://gravity-relay.recheck.io/relay"
-    let chainId : EIP712.UInt256 = .init(337)
+    let chainId: EIP712.UInt256 = .init(337)
 
     func getUserNonce(userAddress : EthereumAddress) throws -> EIP712.UInt256 {
         return .init(0)
     }
 
-    func submitJson(object: SafeTx) {
+    func submitJson(object: RelayerPayload) {
         do {
             let jsonData = try JSONEncoder().encode(object)
             print(String(data: jsonData, encoding: .utf8) as Any)
@@ -28,6 +36,8 @@ class GEIP712 {
             let url = URL(string: relayUrl)!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
 
             // insert json data to the request
             request.httpBody = jsonData
@@ -38,7 +48,8 @@ class GEIP712 {
                     return
                 }
                 
-                print("response = \(String(describing: response))")
+                print(String(data: data, encoding: .utf8) as Any)
+                
             }
 
             task.resume()
@@ -72,8 +83,8 @@ class GEIP712 {
         let nonce: EIP712.UInt256 = try! getUserNonce(userAddress: userAddress!)
         
         let operation: EIP712.UInt8 = 1
-        let baseGas = EIP712.UInt256(60000)
-        let safeTxGas = EIP712.UInt256(250000)
+        let baseGas = EIP712.UInt256("60000")
+        let safeTxGas = EIP712.UInt256("250000")
         let gasPrice = EIP712.UInt256("20000000000")
         let gasToken = EthereumAddress("0x0000000000000000000000000000000000000000")!
         
@@ -101,7 +112,22 @@ class GEIP712 {
         
         print("signature: ", signature.toHexString())
         
-        submitJson(object: safeTX)
+        let safeTxObject = SafeTxStr(
+            to: to,
+            value: value,
+            data: safeTxData,
+            operation: operation,
+            safeTxGas: safeTxGas,
+            baseGas: baseGas,
+            gasPrice: gasPrice,
+            gasToken: gasToken,
+            refundReceiver: userAddress!,
+            nonce: nonce)
+        
+        
+        let payload = RelayerPayload(tx: safeTxObject, from: userAddress!, signature: "0xabf" + signature.toHexString())
+        
+        submitJson(object: payload)
     }
 
 
