@@ -17,7 +17,7 @@ struct Wallet {
 }
 
 class Web3Provider {
-    public var client: web3
+//    public var client: web3
     public var wallet: Wallet!
     
     // Update with blockchain address
@@ -26,9 +26,9 @@ class Web3Provider {
     // Update after deploying contracts
     public var contractAddress = EthereumAddress("0xdBc9205f1fF6Fa1B543034a600a44ae96D56589A")!
 
-    init() {
-        client = web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
-    }
+//    init() {
+//        client = web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
+//    }
     
     func createAccount(password: String, name: String = "Wallet") {
         // Create mnemonics

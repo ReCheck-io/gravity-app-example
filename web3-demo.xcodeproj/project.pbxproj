@@ -19,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B36C995E28745960001B547A /* web3swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = web3swift; path = ../web3swift; sourceTree = "<group>"; };
 		B39F7B742817CD1B00EF775A /* SHA256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		B3C38788280EF0EC009A3357 /* ContractABI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContractABI.json; sourceTree = "<group>"; };
 		B3E4ACB2280ED785004B2154 /* web3-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "web3-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -27,7 +28,6 @@
 		B3E4ACB9280ED786004B2154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3_Provider.swift; sourceTree = "<group>"; };
-		B3E8F1BF286F2DEE004E37B9 /* web3swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = web3swift; path = ../web3swift; sourceTree = "<group>"; };
 		B3E8F1C3286F2E74004E37B9 /* GEIP712.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEIP712.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,10 +43,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B36C995D28745960001B547A /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				B36C995E28745960001B547A /* web3swift */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		B3E4ACA9280ED785004B2154 = {
 			isa = PBXGroup;
 			children = (
-				B3E8F1BE286F2DEE004E37B9 /* Packages */,
+				B36C995D28745960001B547A /* Packages */,
 				B3E4ACB3280ED785004B2154 /* Products */,
 				B3E4ACB4280ED785004B2154 /* web3-demo */,
 				B3E8F1C0286F2DFD004E37B9 /* Frameworks */,
@@ -82,14 +90,6 @@
 				B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		B3E8F1BE286F2DEE004E37B9 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				B3E8F1BF286F2DEE004E37B9 /* web3swift */,
-			);
-			name = Packages;
 			sourceTree = "<group>";
 		};
 		B3E8F1C0286F2DFD004E37B9 /* Frameworks */ = {
