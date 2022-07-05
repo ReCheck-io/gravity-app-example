@@ -130,3 +130,26 @@ struct AES256 {
     }
 }
 
+// MARK: Example
+//                do {
+//                    let sourceData = "hello world".data(using: .utf8)!
+//                    let password = "foo123123bar"
+//                    let salt = AES256.randomSalt()
+//                    let iv = AES256.randomIv()
+//                    let key = try AES256.createKey(password: password.data(using: .utf8)!, salt: salt)
+//                    let aes = try AES256(key: key, iv: iv)
+//                    let encrypted = try aes.encrypt(sourceData)
+//                    let decrypted = try aes.decrypt(encrypted)
+//
+//                    print("Encrypted: \(encrypted.hexString)")
+//                    print("Decrypted: \(decrypted.hexString)")
+//                    print("Password: \(password)")
+//                    print("Key: \(key.hexString)")
+//                    print("IV: \(iv.hexString)")
+//                    print("Salt: \(salt.hexString)")
+//                    print(" ")
+//
+//                } catch {
+//                    print("Failed")
+//                    print(error)
+//                }
