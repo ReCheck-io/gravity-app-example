@@ -16,7 +16,6 @@ extension Data {
 
 struct ContentView: View {
     let web3p = Web3Provider()
-    let geip712 = GEIP712()
     
     var accountPassword = "123123123"
     var mnemonicsForImportWallet = "fluid kind bird ice wing ribbon era common scissors stock chat estate"
@@ -45,7 +44,7 @@ struct ContentView: View {
             Button("Sign Terms") {
                 print("Sign Terms (Gassless)....")
 
-                try? geip712.signTerms(
+                try? web3p.signTerms(
                     keystore: web3p.wallet.keystore!,
                     keyStorePassword: accountPassword,
                     tosHash: "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b")
@@ -58,7 +57,7 @@ struct ContentView: View {
             Button("Verify Signature") {
                 print("Verify Signature....")
                 
-                try? geip712.verifyTermsSignature(keystore: web3p.wallet.keystore!, tosHash: "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b")
+                try? web3p.verifyTermsSignature(keystore: web3p.wallet.keystore!, tosHash: "0x4f18e5cf5b77b13fb6c80122b3cde9697e7b0a35aef062ed33b683fbf072489b")
             }
             .padding(.horizontal, 12.0)
             .padding(.vertical, 8.0)

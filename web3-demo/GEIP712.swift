@@ -7,6 +7,7 @@
 
 import Foundation
 import web3swift
+import CryptoSwift
 
 struct RelayerPayload: Codable {
     let tosHash: String
@@ -16,34 +17,23 @@ struct RelayerPayload: Codable {
 
 
 class GEIP712 {
-    
-//    this combo works
-//    let relayContract: String = "0xaC4c847899f7A38b166DCcb83171eF4c19FD4c9C"
-//    let tosContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
-    
-//    let tosContract: String = "0x5DCC06c74BCaBb840B08F05399A44AEc3ED1bdD4"
-//    let relayContract: String = "0xaC4c847899f7A38b166DCcb83171eF4c19FD4c9C"
-    
-//    let tosContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
-//    let relayContract: String = "0x3F06bAAdA68bB997daB03d91DBD0B73e196c5A4d"
     let relayUrl: String = "https://gravity-relay.recheck.io"
-    
-    
 
     func signTerms(keystore: BIP32Keystore, keyStorePassword: String, tosHash: String) throws {
         let userAddress = keystore.addresses?[0]
-
+        
         let signature = try Web3Signer.signPersonalMessage(
-            tosHash.data(using: .utf8)!,
+            Data(hex: tosHash),
             keystore: keystore,
             account: userAddress!,
             password: keyStorePassword
         )
         
+        
         let hashSignature = "0x" + (signature?.toHexString())!
         print("hashSignature:", hashSignature)
         
-        let signee = Web3Utils.personalECRecover(tosHash.data(using: .utf8)!, signature: signature!)
+        let signee = Web3Utils.personalECRecover(Data(hex: tosHash), signature: signature!)
         print("Recovered address:", signee as Any);
         
         let payload = RelayerPayload(tosHash: tosHash, from: userAddress!, signature: hashSignature)
@@ -53,6 +43,7 @@ class GEIP712 {
         func submitRelayRequest(object: RelayerPayload) {
             do {
                 let jsonData = try JSONEncoder().encode(object)
+                print(String(data: jsonData, encoding: .utf8) as Any)
                 let url = URL(string: relayUrl + "/relay")!
                 var request = URLRequest(url: url)
                 

@@ -15,7 +15,6 @@
 		B3E4ACBD280ED786004B2154 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */; };
 		B3E4ACC4280ED7AB004B2154 /* Web3_Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */; };
 		B3E8F1C2286F2DFD004E37B9 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = B3E8F1C1286F2DFD004E37B9 /* web3swift */; };
-		B3E8F1C4286F2E74004E37B9 /* GEIP712.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E8F1C3286F2E74004E37B9 /* GEIP712.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +27,6 @@
 		B3E4ACB9280ED786004B2154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3E4ACBC280ED786004B2154 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3_Provider.swift; sourceTree = "<group>"; };
-		B3E8F1C3286F2E74004E37B9 /* GEIP712.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEIP712.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +72,6 @@
 			children = (
 				B3C38788280EF0EC009A3357 /* ContractABI.json */,
 				B3E4ACB7280ED785004B2154 /* ContentView.swift */,
-				B3E8F1C3286F2E74004E37B9 /* GEIP712.swift */,
 				B39F7B742817CD1B00EF775A /* SHA256.swift */,
 				B3E4ACB5280ED785004B2154 /* web3_demoApp.swift */,
 				B3E4ACC3280ED7AB004B2154 /* Web3_Provider.swift */,
@@ -179,7 +176,6 @@
 				B3E4ACB8280ED785004B2154 /* ContentView.swift in Sources */,
 				B3E4ACB6280ED785004B2154 /* web3_demoApp.swift in Sources */,
 				B3E4ACC4280ED7AB004B2154 /* Web3_Provider.swift in Sources */,
-				B3E8F1C4286F2E74004E37B9 /* GEIP712.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
