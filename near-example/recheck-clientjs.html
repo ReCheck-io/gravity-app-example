@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Gravity App</title>
+   </head>
+   <body>
+       <script src="recheck-clientjs-library.js"></script>
+       <script>
+           window.onerror = function(err) {
+               log('window.onerror: ' + err)
+           }
+
+           function setupWKWebViewJavascriptBridge(callback) {
+               if (window.WKWebViewJavascriptBridge) { return callback(WKWebViewJavascriptBridge); }
+               if (window.WKWVJBCallbacks) { return window.WKWVJBCallbacks.push(callback); }
+               window.WKWVJBCallbacks = [callback];
+               window.webkit.messageHandlers.iOS_Native_InjectJavascript.postMessage(null)
+           }
+
+           setupWKWebViewJavascriptBridge(function(bridge) {
+               bridge.registerHandler('init', function(data, responseCallback) {
+                   RECHECK.init('', 'near');
+               })
+               bridge.registerHandler('createKeys', async function(data, responseCallback) {
+                   const result = await RECHECK.newKeyPair(data);
+                   if (result.address) responseCallback(result);
+               })
+               
+           })
+       </script>
+   </body>
+</html>
