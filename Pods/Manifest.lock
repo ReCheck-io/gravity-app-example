@@ -1,16 +1,20 @@
 PODS:
+  - CryptoSwift (1.6.0)
   - WKWebViewJavascriptBridge (1.2.2)
 
 DEPENDENCIES:
+  - CryptoSwift (~> 1.6.0)
   - WKWebViewJavascriptBridge (~> 1.2.0)
 
 SPEC REPOS:
   trunk:
+    - CryptoSwift
     - WKWebViewJavascriptBridge
 
 SPEC CHECKSUMS:
+  CryptoSwift: 562f8eceb40e80796fffc668b0cad9313284cfa6
   WKWebViewJavascriptBridge: d7324badf8996486c71648f448617b09bf927b4b
 
-PODFILE CHECKSUM: 991905e93275495db3a5470b43d7f37e91ff51b2
+PODFILE CHECKSUM: 2c21b7bc7d2047d29c90a854e30bbbc60ff607cd
 
 COCOAPODS: 1.11.3

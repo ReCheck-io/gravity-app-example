@@ -13,6 +13,7 @@
 		B3166BF5290140A7003AB18F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3166BF3290140A7003AB18F /* Main.storyboard */; };
 		B3166BF7290140A8003AB18F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3166BF6290140A8003AB18F /* Assets.xcassets */; };
 		B3166BFA290140A8003AB18F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3166BF8290140A8003AB18F /* LaunchScreen.storyboard */; };
+		B329E076290162CE0034A7F6 /* AES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329E075290162CE0034A7F6 /* AES256.swift */; };
 		B340E7EB2901411800BF37C9 /* recheck-clientjs.html in Resources */ = {isa = PBXBuildFile; fileRef = B340E7EA2901411800BF37C9 /* recheck-clientjs.html */; };
 		B340E7ED2901414900BF37C9 /* recheck-clientjs-library.js in Resources */ = {isa = PBXBuildFile; fileRef = B340E7EC2901414900BF37C9 /* recheck-clientjs-library.js */; };
 		F93090EEAC03D3FF5338B33A /* Pods_near_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C525B9B154B5E8168F59D3E /* Pods_near_example.framework */; };
@@ -30,6 +31,7 @@
 		B3166BF6290140A8003AB18F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3166BF9290140A8003AB18F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3166BFB290140A8003AB18F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B329E075290162CE0034A7F6 /* AES256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AES256.swift; sourceTree = "<group>"; };
 		B340E7EA2901411800BF37C9 /* recheck-clientjs.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "recheck-clientjs.html"; sourceTree = "<group>"; };
 		B340E7EC2901414900BF37C9 /* recheck-clientjs-library.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "recheck-clientjs-library.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +88,7 @@
 			children = (
 				B340E7EC2901414900BF37C9 /* recheck-clientjs-library.js */,
 				B340E7EA2901411800BF37C9 /* recheck-clientjs.html */,
+				B329E075290162CE0034A7F6 /* AES256.swift */,
 				B3166BED290140A7003AB18F /* AppDelegate.swift */,
 				B3166BEF290140A7003AB18F /* SceneDelegate.swift */,
 				B3166BF1290140A7003AB18F /* ViewController.swift */,
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B329E076290162CE0034A7F6 /* AES256.swift in Sources */,
 				B3166BF2290140A7003AB18F /* ViewController.swift in Sources */,
 				B3166BEE290140A7003AB18F /* AppDelegate.swift in Sources */,
 				B3166BF0290140A7003AB18F /* SceneDelegate.swift in Sources */,

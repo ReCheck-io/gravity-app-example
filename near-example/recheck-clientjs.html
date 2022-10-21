@@ -8,7 +8,7 @@
        <script src="recheck-clientjs-library.js"></script>
        <script>
            window.onerror = function(err) {
-               log('window.onerror: ' + err)
+               console.log('window.onerror: ' + err)
            }
 
            function setupWKWebViewJavascriptBridge(callback) {
@@ -19,15 +19,45 @@
            }
 
            setupWKWebViewJavascriptBridge(function(bridge) {
+               var uniqueId = 1
+
+               function log(message, data, type) {
+                   console.log(message, data, type)
+                   var log = document.getElementById('log')
+                   var el = document.createElement('div')
+                   el.className = type == 'native' ? 'logLine_Native' : 'logLine_JS'
+                   el.innerHTML = uniqueId++ + '. ' + message + ':<br/>' + JSON.stringify(data)
+                   if (log.children.length) { log.insertBefore(el, log.children[0]) }
+                   else { log.appendChild(el) }
+               }
+
+               
                bridge.registerHandler('init', function(data, responseCallback) {
                    RECHECK.init('', 'near');
                })
-               bridge.registerHandler('createKeys', async function(data, responseCallback) {
-                   const result = await RECHECK.newKeyPair(data);
-                   if (result.address) responseCallback(result);
+               bridge.registerHandler('getHash', function(data, responseCallback) {
+                   if (!data) { return; }
+                   
+                   const result = RECHECK.getHash(data);
+                   if (result) return responseCallback(result);
                })
-               
+               bridge.registerHandler('createKeys', async function(data, responseCallback) {
+                   RECHECK.init('', 'near');
+                   
+                   const result = await RECHECK.newKeyPair(data);
+                   if (result && result.address) return responseCallback(result);
+               })
+               bridge.registerHandler('signMessage', function(data, responseCallback) {
+                   RECHECK.init('', 'near');
+                   
+                   if (!data || !data.message || !data.secretKey) { return; }
+                   
+                   const signature = RECHECK.signMessage(data.message, data.secretKey);
+                   if (signature) return responseCallback(signature);
+               })
            })
        </script>
+       <div id='buttons'></div> <div id='log'></div>
+
    </body>
 </html>
