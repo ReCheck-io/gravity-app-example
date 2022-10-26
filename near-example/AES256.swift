@@ -8,19 +8,19 @@
 import CryptoSwift
 
 struct AES256 {
-    let encryptionKey: String = "@6%2a7&%5P#47489";
+//    Change encryptionIV to any random 16 chars
     let encryptionIV: String = "6L82f!#364&%9$86";
 
-    public func encryptString(data: String) -> String {
-        let encryptedData: String = try! data.aesEncrypt(key: encryptionKey, iv: encryptionIV)
+    public func encryptString(pin: String, data: String) -> String {
+        let encryptedData: String = try! data.aesEncrypt(key: pin, iv: encryptionIV)
 //        print("Data: ", data)
 //        print("Encrypted Data: ", encryptedData)
         
         return encryptedData
     }
 
-    public func decryptString(encryptedString: String) -> String {
-        let dencryptedData: String = try! encryptedString.aesDecrypt(key: encryptionKey, iv: encryptionIV)
+    public func decryptString(pin: String, encryptedString: String) -> String {
+        let dencryptedData: String = try! encryptedString.aesDecrypt(key: pin, iv: encryptionIV)
 //        print("Encrypted Data: ", encryptedString)
 //        print("Decrypted Data: ", dencryptedData)
         

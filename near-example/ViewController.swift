@@ -9,10 +9,15 @@ import UIKit
 import WebKit
 import WKWebViewJavascriptBridge
 
-struct RelayerPayload: Codable {
+struct RelayerParams: Codable {
     let tosHash: String
-    let from: String
+    let pubKey: String
     let signature: String
+}
+
+struct RelayerPayload: Codable {
+    let action: String
+    let params: RelayerParams
 }
 
 struct Wallet: Codable {
@@ -25,7 +30,8 @@ struct Wallet: Codable {
 }
 
 class ViewController: UIViewController {
-    private let relayUrl: String = "https://gravity-relay.recheck.io"
+    private let userPin: String = "@6%2a7&%5P#47489"
+    private let relayUrl: String = "http://localhost:4001"
     private let termsOfServiceStringified: String = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
     
     
@@ -65,7 +71,7 @@ class ViewController: UIViewController {
         
         // setup bridge
         bridge = WKWebViewJavascriptBridge(webView: webView)
-        bridge.isLogEnable = true
+        bridge.isLogEnable = false
     }
    
     override func viewWillAppear(_ animated: Bool) {
@@ -118,19 +124,24 @@ class ViewController: UIViewController {
                 secretEncKey: data.unsafelyUnwrapped["secretEncKey"] as! String,
                 secretKey: data.unsafelyUnwrapped["secretKey"] as! String
             )
-            
+            print(self.wallet)
             do {
                 let jsonData = try JSONEncoder().encode(self.wallet)
                 let stringifiedWallet = String(data: jsonData, encoding: .utf8)
                 
                 // encrypting user's keys
-                let encryptedString = AES256().encryptString(data: stringifiedWallet!)
-                print("encryptedString", encryptedString)
+                let encryptedString = AES256().encryptString(pin: self.userPin, data: stringifiedWallet!)
+//                print("encryptedString", encryptedString)
+                
                 // TODO: Store encryptedString in backend
                 
-                // Decrypting keys
-                let decryptedKeys = AES256().decryptString(encryptedString: encryptedString)
-                print("decryptedKeys", decryptedKeys)
+                // Example: How to decrypt keys
+                let decryptedKeys = AES256().decryptString(pin: self.userPin, encryptedString: encryptedString)
+//                print("decryptedKeys", decryptedKeys)
+                
+                // Create wallet struct from decrypted data
+                let parsedData = try JSONDecoder().decode(Wallet.self, from: decryptedKeys.data(using: .utf8)!)
+//                print("Recovered wallet", parsedData)
             } catch {
               print("Failed")
             }
@@ -138,17 +149,25 @@ class ViewController: UIViewController {
     }
     
     @objc func signTerms() {
-        var payload = RelayerPayload(tosHash: "", from: "", signature: "")
-        let tosHash: String = "0x0000000000000000000000000000000000000000"
+        // tosHash will come as parameter
+        let tosHash: String = "53e716e1fc6fb4d188f5221f98c51d5b44ba287b3d03c02a6e775f4a0e4ba039"
+        var payload = RelayerPayload(action: "signTerms", params: RelayerParams(tosHash: "", pubKey: "", signature: ""))
         
         // Prepare params for signing with user's identity
         let params = ["message": tosHash, "secretKey": self.wallet.secretKey]
         
         // Sign message (tosHash) and submit RelayerPayload to the relayer
         self.bridge.call(handlerName: "signMessage", data: params, callback: { (signature) in
+            print("Signature", signature as! String)
             if (signature != nil) {
-                print("Signature", signature as! String)
-                payload = RelayerPayload(tosHash: tosHash, from: self.wallet.address, signature: signature.unsafelyUnwrapped as! String)
+                payload = RelayerPayload(
+                    action: "signTerms",
+                    params: RelayerParams(
+                        tosHash: tosHash,
+                        pubKey: self.wallet.address,
+                        signature: signature.unsafelyUnwrapped as! String
+                    )
+                )
                 submitRelayRequest(object: payload)
             }
         })
@@ -187,12 +206,13 @@ class ViewController: UIViewController {
     }
     
     @objc func verifyTermsSignature() {
-        let tosHash: String = "0x0000000000000000000000000000000000000000"
+        // tosHash will come as parameter
+        let tosHash: String = "53e716e1fc6fb4d188f5221f98c51d5b44ba287b3d03c02a6e775f4a0e4ba039"
         
         var components = URLComponents(string: relayUrl + "/verifySignature")!
         components.queryItems = [
             URLQueryItem(name: "tosHash", value: tosHash),
-            URLQueryItem(name: "pubKey", value: wallet.publicKey)
+            URLQueryItem(name: "pubKey", value: wallet.address)
         ]
         
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
