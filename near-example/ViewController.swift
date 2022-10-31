@@ -164,7 +164,7 @@ class ViewController: UIViewController {
                     action: "signTerms",
                     params: RelayerParams(
                         tosHash: tosHash,
-                        pubKey: self.wallet.address,
+                        pubKey: self.wallet.publicKey,
                         signature: signature.unsafelyUnwrapped as! String
                     )
                 )
@@ -212,7 +212,7 @@ class ViewController: UIViewController {
         var components = URLComponents(string: relayUrl + "/verifySignature")!
         components.queryItems = [
             URLQueryItem(name: "tosHash", value: tosHash),
-            URLQueryItem(name: "pubKey", value: wallet.address)
+            URLQueryItem(name: "pubKey", value: wallet.publicKey)
         ]
         
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
